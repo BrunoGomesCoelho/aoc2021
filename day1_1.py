@@ -1,9 +1,9 @@
-current = None
+current = float('-inf')
 counter = 0
 
 while (inp := input()):
     inp = int(inp)
-    if current is not None and inp > current:
+    if inp > current:
         counter += 1
     current = inp
 

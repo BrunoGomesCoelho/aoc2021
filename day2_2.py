@@ -1,10 +1,9 @@
-horizontal = 0
-aim = 0
-vertical = 0
+aim, vertical, horizontal = 0, 0, 0
 
 while (inp := input()):
     direction, value = inp.split()
     value = int(value)
+
     match direction:
         case "forward":
             horizontal += value
