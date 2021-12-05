@@ -2,33 +2,27 @@ import numpy as np
 from sys import stdin
 
 
-def read_board():
-    board = np.zeros((5, 5))
-    is_marked = np.full((5, 5), False)
-    for i in range(5):
-        for j, num in enumerate(input().split()):
-            board[i, j] = int(num)
-
-    return (board, is_marked)
-
+N = 5
+boards = []  # [(board_i, marked_i), ...]
 drawn_numbers = [int(num) for num in input().split(',')]
 
-boards = [] # [(b1, marked1), ...]
-for line in stdin: # ignore newlines
-    boards.append(read_board())
+for line in stdin:  # skip newlines
+    is_marked = np.full((N, N), False)
+    board = np.array([[int(x) for x in input().split()] for _ in range(N)])
 
+    boards.append((board, is_marked))
 
 finished_games = np.full(len(boards), False)
 
-for number in drawn_numbers:
-    for i, (board, is_marked) in enumerate(boards):
-        is_marked[board == number] = True
-        is_bingo = any(is_marked.sum(axis=0) == 5) or any(is_marked.sum(axis=1) == 5)
+for num in drawn_numbers:
+    for board_idx, (board, is_marked) in enumerate(boards):
+        is_marked[board == num] = True
+        is_bingo = any(is_marked.sum(axis=0) == N) or any(is_marked.sum(axis=1) == N)
 
-        if is_bingo and finished_games[i] == False:
-            finished_games[i] = True
+        if is_bingo and not finished_games[board_idx]:
+            finished_games[board_idx] = True
 
         if finished_games.sum() == len(finished_games):
-            score = int(board[~is_marked].sum()*number)
+            score = int(board[~is_marked].sum()*num)
             print(score)
             exit(0)
