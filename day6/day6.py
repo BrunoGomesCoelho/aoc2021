@@ -4,7 +4,7 @@ NEW_TIMER, NEW_LANT, DAYS = 6, 8, 80  # part1
 NEW_TIMER, NEW_LANT, DAYS = 6, 8, 256  # part2
 
 ages = np.zeros(NEW_LANT+1)
-for num in [int(x) for x in input().split(",")]:
+for num in map(int, input().split(",")]:
     ages[num] += 1
 
 for _ in range(DAYS):
