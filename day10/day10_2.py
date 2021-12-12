@@ -1,8 +1,17 @@
+def calc_score(stack):
+    score = 0
+    while stack:
+        c = stack.pop()
+        score = score*5 + points_map[open_symb_map[c]]
+
+    return score
+
+
+scores = []
 points_map = {")": 1, "]": 2, "}": 3, ">": 4}
 close_symb_map = {"]": "[", ")": "(", "}": "{", ">": "<"}
 open_symb_map = {v:k for k,v in close_symb_map.items()}
 
-stacks = []
 while inp := input():
     stack = []
     for c in inp:
@@ -13,16 +22,6 @@ while inp := input():
         else:
             stack.pop()
     else:
-        stacks.append(stack)
+        scores.append(calc_score(stack))
 
-scores = []
-for stack in stacks:
-    score = 0
-    while stack:
-        c = stack.pop()
-        score *= 5
-        score += points_map[open_symb_map[c]]
-    scores.append(score)
-
-scores = sorted(scores)
-print(scores[len(scores)//2])
+print(sorted(scores)[len(scores)//2])
