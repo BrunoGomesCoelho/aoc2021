@@ -1,23 +1,18 @@
-from collections import Counter
 import re
+from collections import Counter, defaultdict
 
-def relax_polymer(polymer, recipes): # eh um step
-    new_polymer = ""
-    for a, b in zip(polymer[:-1], polymer[1:]):
-        new_polymer += a + recipes.get(a+b, "")
-    return new_polymer + polymer[-1]
-
-
-template = input()
+polymer = input()
 input() # fuck you bruno
-recipes = {}
+
+recipes = defaultdict(str)
 while recipe := input():
     [(adjacent, newchar)] = re.findall("([A-Z]+) -> ([A-Z])", recipe)
     recipes[adjacent] = newchar
 
-for i in range(10):
-    template = relax_polymer(template, recipes)
+for _ in range(10):
+    new_polymer = [a + recipes[a+b] for a, b in zip(polymer, polymer[1:])]
+    polymer = "".join(new_polymer) + polymer[-1]
 
-c = Counter(template).values()
-print(max(c) - min(c))
+(_, most), *_, (_, least) = Counter(polymer).most_common()
+print(most-least)
 
